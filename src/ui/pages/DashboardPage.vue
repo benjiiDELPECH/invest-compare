@@ -16,33 +16,21 @@
       </button>
     </div>
 
-    <!-- API key prompt -->
+    <!-- API key banner -->
     <div
       v-if="!hasApiKey"
-      class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg"
+      class="mb-6 flex items-center gap-3 px-4 py-3 bg-slate-100 border border-slate-200 rounded-lg"
     >
-      <h3 class="font-medium text-amber-800 mb-2">🔑 Clé API requise</h3>
-      <p class="text-sm text-amber-700 mb-3">
-        InvestCompare utilise Alpha Vantage (gratuit) pour les données de marché.
-        <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="underline">
-          Obtenez votre clé gratuite ici.
-        </a>
+      <span class="text-slate-400">⚙️</span>
+      <p class="text-sm text-slate-600 flex-1">
+        Configurez votre source de données pour lancer des comparaisons.
       </p>
-      <div class="flex gap-2">
-        <input
-          v-model="apiKeyInput"
-          type="text"
-          placeholder="Collez votre clé API..."
-          class="flex-1 px-3 py-1.5 border border-amber-300 rounded text-sm"
-          @keydown.enter="saveKey"
-        />
-        <button
-          class="px-4 py-1.5 bg-amber-600 text-white rounded text-sm hover:bg-amber-700"
-          @click="saveKey"
-        >
-          Enregistrer
-        </button>
-      </div>
+      <router-link
+        to="/settings"
+        class="px-3 py-1.5 bg-slate-700 text-white rounded-md text-sm hover:bg-slate-800 transition-colors whitespace-nowrap"
+      >
+        Ouvrir les paramètres
+      </router-link>
     </div>
 
     <!-- Saved sessions -->
@@ -89,14 +77,13 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSessionStorage } from '@app/composables/useSessionStorage'
-import { getApiKey, setApiKey } from '@infra/api/apiKeyManager'
+import { getApiKey } from '@infra/api/apiKeyManager'
 import { formatDate } from '@shared/formatters'
 
 const router = useRouter()
 const { sessions, loadAll, remove } = useSessionStorage()
 
 const hasApiKey = ref(false)
-const apiKeyInput = ref('')
 
 onMounted(async () => {
   await loadAll()
@@ -115,13 +102,6 @@ function openSession(id: string) {
 async function deleteSession(id: string) {
   if (confirm('Supprimer cette comparaison ?')) {
     await remove(id)
-  }
-}
-
-async function saveKey() {
-  if (apiKeyInput.value.trim()) {
-    await setApiKey(apiKeyInput.value.trim())
-    hasApiKey.value = true
   }
 }
 </script>

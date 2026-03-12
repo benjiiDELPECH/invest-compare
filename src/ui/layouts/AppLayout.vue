@@ -16,6 +16,9 @@
         </nav>
       </div>
       <div class="flex items-center gap-3 text-slate-400 text-xs">
+        <router-link to="/settings" class="hover:text-white transition-colors" active-class="text-white">
+          ⚙️
+        </router-link>
         <span>
           <kbd class="kbd">Ctrl+/</kbd> Aide
         </span>

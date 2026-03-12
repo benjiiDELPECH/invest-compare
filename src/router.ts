@@ -19,6 +19,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@ui/pages/ExplanationsPage.vue'),
     meta: { title: 'Comprendre les calculs' },
   },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@ui/pages/SettingsPage.vue'),
+    meta: { title: 'Paramètres' },
+  },
 ]
 
 const router = createRouter({
